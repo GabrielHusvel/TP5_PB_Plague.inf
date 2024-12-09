@@ -1,3 +1,5 @@
+# TP5_PB_Plague.inf                        
+
 
 O projeto de monitoramento de dengue oferece um dashboard interativo que contém dados epidemiológicos atuais, análises e insights detalhados sobre a propagação da doença. Este sistema foi desenvolvido com base em dados reais, coletados do sus através do PYSUS(https://pysus.readthedocs.io/en/latest/
 ), que tem informações sobre casos registrados, fatores climáticos e índices de disseminação. A solução atende a gestores públicos, profissionais de saúde e cidadãos, permitindo decisões rápidas e informadas para contenção e prevenção da doença.
