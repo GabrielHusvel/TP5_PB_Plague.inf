@@ -324,14 +324,14 @@ def exibir_analise_municipio(df):
     
     # Exibir legenda e mapa
     exibir_legenda()
-    
-    st.write("O mapa corresponde à opção de um mês.")
-    plotar_mapa(df_filtrado, municipio_usuario)
-    
+
     predicao = predicao_casos(df_municipio, municipio_usuario)
     if predicao is not None:
         st.write(f"**Predição de casos futuros no município {municipio_usuario}:** {predicao}")
 
+    st.write("O mapa corresponde à opção de um mês.")
+    plotar_mapa(df_filtrado, municipio_usuario)
+    
     # Criar e exibir gráficos
     df_min_max = df_filtrado.groupby('data_week').agg({
         'casos': ['min', 'max'],
