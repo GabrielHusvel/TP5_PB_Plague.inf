@@ -15,7 +15,7 @@ google-generativeai<0.8.99
 python-dotenv<1.0.99
 dask
 langchain
-
+langchain-google-genai
 
 
 
