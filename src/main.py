@@ -10,7 +10,6 @@ from analise_llm import analise_llm_municipio
 from dengue_data_processing import carregar_dataset
 from dotenv import load_dotenv
 import pandas as pd
-from langchain_google_genai import GoogleGenerativeAI
 from langchain.tools import tool
 from langchain.agents import initialize_agent
 from langchain.prompts import PromptTemplate
