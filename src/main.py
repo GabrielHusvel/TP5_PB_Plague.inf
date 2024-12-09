@@ -153,7 +153,7 @@ elif choice == "Chat de Consulta":
                                 
                                 Com base nesses dados:
                                 - Resuma a situação mais recente (11/2024) da dengue em {municipio_usuario}.
-                                - Dê algumas dicas importantes sobre cuidados que o usuário pode tomar.
+                                - Dê algumas dicas importantes sobre cuidados que o usuário pode tomar e resalte sobre ir com a famílha.
                                 """
                                 response_inf = agent.run(input=prompt_inf)
                                 st.session_state.messages.append({"role": "assistant", "content": response_inf})
