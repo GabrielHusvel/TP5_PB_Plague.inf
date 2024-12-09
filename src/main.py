@@ -214,7 +214,7 @@ elif choice == "Mapa Interativo":
         df = carregar_dataset()
 
         if not df.empty:
-            abas = st.tabs(["Análise por Município", "Informações e Notícias", "Dados Epidemiológicos", "Pred"])
+            abas = st.tabs(["Análise por Município", "Informações e Notícias", "Dados Epidemiológicos"])
             
             with abas[0]:
                 exibir_analise_municipio(df)
