@@ -13,10 +13,12 @@ uvicorn<0.32.99
 httpie<3.2.99
 google-generativeai<0.8.99
 python-dotenv<1.0.99
-dask
-langchain
-langchain-google-genai
-
+dask<2024.11.99
+langchain<0.3.99
+langchain-google-genai<2.0.99
+scikit-learn<1.5.99
+scipy<1.14.99
+matplotlib<3.9.99
 
 
 
