@@ -19,11 +19,42 @@ class NoticiaDengueInput(BaseModel):
 
 # Função auxiliar para verificar relevância sobre dengue
 def is_dengue_related(title, description):
+    '''
+    Descrição:
+    Verifica se uma notícia está relacionada a dengue com base em palavras-chave presentes no título ou descrição.
+
+    Parâmetros:
+
+    title (str): O título da notícia.
+    description (str): A descrição da notícia.
+    Retorno:
+
+    (bool): True se alguma palavra-chave estiver presente no título ou na descrição, caso contrário, False.
+
+    '''
     keywords = ['dengue', 'zika', 'chikungunya', 'aedes aegypti', 'febre amarela']
     return any(keyword.lower() in title.lower() or keyword.lower() in description.lower() for keyword in keywords)
 
 # Função para extrair informações sobre a dengue (site do governo)
 def scrape_dengue_info():
+    '''
+    Descrição:
+    Extrai informações sobre dengue diretamente do site oficial do Governo do Brasil.
+
+    Parâmetros:
+
+    Nenhum.
+    Retorno:
+
+    (list[str]): Lista de parágrafos com informações relevantes sobre dengue.
+    Exceções:
+
+    Gera uma exceção se a página não puder ser acessada.
+    Dependências:
+
+    requests, BeautifulSoup.
+
+    '''
     url = 'https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/d/dengue'
     response = requests.get(url, headers=HEADERS)
     
@@ -39,6 +70,30 @@ def scrape_dengue_info():
 
 # Função para coletar notícias da CNN Brasil
 def scrape_cnn_news():
+    '''
+    Descrição:
+    Coleta notícias relacionadas à dengue publicadas na CNN Brasil.
+
+    Parâmetros:
+
+    Nenhum.
+    Retorno:
+
+    (list[dict]): Lista de notícias, onde cada notícia contém:
+    title (str): Título da notícia.
+    link (str): URL da notícia.
+    description (str): Descrição ou resumo da notícia.
+    date (str): Data de publicação.
+    Exceções:
+
+    Gera uma exceção se a página da CNN não puder ser acessada.
+    Dependências:
+
+    requests, BeautifulSoup.
+    Nota:
+
+    Filtra as notícias utilizando palavras-chave relacionadas à dengue.
+    '''
     # URL do site
     url = "https://www.cnnbrasil.com.br/tudo-sobre/dengue/"
     
@@ -89,6 +144,29 @@ def sanitize_input(text):
 
 # Função para coletar notícias do G1
 def scrape_g1_news(state, city=None):
+    '''
+    Descrição:
+    Busca notícias relacionadas à dengue no G1 com base no estado e, opcionalmente, no município.
+
+    Parâmetros:
+
+    state (str): Nome do estado para busca.
+    city (str, opcional): Nome do município para busca.
+    Retorno:
+
+    (list[dict]): Lista de notícias, onde cada notícia contém:
+    title (str): Título da notícia.
+    link (str): URL da notícia.
+    description (str): Resumo da notícia.
+    date (str): Data de publicação.
+    Exceções:
+
+    Gera uma exceção se a página do G1 não puder ser acessada.
+    Dependências:
+
+    requests, BeautifulSoup.
+
+    '''
     state = state.strip().title()
     city = city.strip().title() if city else None
     search_query = f"dengue {state}" + (f" {city}" if city else "")
@@ -142,6 +220,32 @@ def show_news(news, title):
 
 # Streamlit App
 def exibir_noticias_informacoes():
+    '''
+    Descrição:
+    Aplicativo principal em Streamlit para exibir informações e notícias sobre dengue.
+
+    Parâmetros:
+
+    Nenhum.
+    Fluxo:
+
+    Carrega informações gerais sobre dengue do site do governo.
+    Exibe notícias gerais sobre dengue da CNN Brasil.
+    Exibe notícias específicas do G1 com base no estado e município.
+    Botões no Streamlit:
+
+    "Carregar Informações sobre dengue".
+    "Carregar Notícias Gerais".
+    "Carregar Notícias por Município".
+    Dependências:
+
+    streamlit, funções auxiliares como scrape_dengue_info, scrape_cnn_news, scrape_g1_news.
+    Notas:
+
+    Usa variáveis globais como MUNICIPIO_USUARIO_dengue para determinar o município selecionado.
+    Lida com exceções ao acessar dados ou páginas externas.
+
+    '''
     st.title("🔍 Notícias e Informações sobre Dengue 🔍")
     
     # Informações gerais

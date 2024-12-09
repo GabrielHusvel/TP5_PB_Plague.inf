@@ -20,12 +20,10 @@ def analise_llm_municipio(df, municipio_usuario):
 
     # Dados do município solicitado
     df_municipio = df[df["municipio"] == municipio_usuario]
-    # Verificar se o município foi encontrado
     if df_municipio.empty:
         raise ValueError(f"O município '{municipio_usuario}' não foi encontrado no dataset.")
     estado_usuario = df_municipio["estado"].iloc[0]
     df_filtrado = df[df["estado"] == estado_usuario]
-    # Filtrar dados do estado
     df_estado = df[df['estado'] == estado_usuario]
 
     # Determinar o período de análise
@@ -52,6 +50,19 @@ HEADERS = {
 
 # Função auxiliar para verificar relevância sobre dengue
 def is_dengue_related(title, description):
+    '''
+    Descrição:
+    Verifica se uma notícia está relacionada a dengue com base em palavras-chave presentes no título ou descrição.
+
+    Parâmetros:
+
+    title (str): O título da notícia.
+    description (str): A descrição da notícia.
+    Retorno:
+
+    (bool): True se alguma palavra-chave estiver presente no título ou na descrição, caso contrário, False.
+
+    '''
     keywords = [
         'dengue', 'zika', 'chikungunya', 
         'aedes aegypti', 'febre amarela', 
@@ -61,6 +72,29 @@ def is_dengue_related(title, description):
 
 # Função para coletar notícias do G1
 def scrape_news_llm(user_input):
+    '''
+    Descrição:
+    Busca notícias relacionadas à dengue no G1 com base no estado e, opcionalmente, no município.
+
+    Parâmetros:
+
+    state (str): Nome do estado para busca.
+    city (str, opcional): Nome do município para busca.
+    Retorno:
+
+    (list[dict]): Lista de notícias, onde cada notícia contém:
+    title (str): Título da notícia.
+    link (str): URL da notícia.
+    description (str): Resumo da notícia.
+    date (str): Data de publicação.
+    Exceções:
+
+    Gera uma exceção se a página do G1 não puder ser acessada.
+    Dependências:
+
+    requests, BeautifulSoup.
+
+    '''
     try:
         search_query = f"dengue {user_input}"
         url = f"https://g1.globo.com/busca/?q={search_query}"

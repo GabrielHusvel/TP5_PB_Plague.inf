@@ -75,7 +75,7 @@ elif choice == "Chat de Consulta":
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # Entrada do usuário: nome do município
+  
     # Entrada do usuário
     if user_input := st.chat_input("Digite o nome do município que deseja consultar:"):
         class UserInput(BaseModel):
@@ -100,7 +100,7 @@ elif choice == "Chat de Consulta":
             try:
                 news = scrape_news_llm(user_input)
                 if news:
-                    return "\n".join(f"- {item}" for item in news)  # Formata como uma lista com itens destacados
+                    return "\n".join(f"- {item}" for item in news)  
                 return "Nenhuma notícia encontrada para o município solicitado."
             except Exception as e:
                 return f"Erro ao buscar notícias: {str(e)}"
@@ -144,7 +144,7 @@ elif choice == "Chat de Consulta":
                                 df = carregar_dataset()        
                                 estado_usuario, municipio_usuario, df_municipio, df_filtrado = analise_llm_municipio(df, user_input)
 
-                                # Criar prompts dinâmicos
+                               
                                 prompt_inf = f"""
                                 Você é um analista de dados experiente. O usuário consultou o município {municipio_usuario}.
                                 Os dados carregados sobre a situação da dengue incluem:
@@ -172,7 +172,7 @@ elif choice == "Chat de Consulta":
                                 response_new = agent.run(input=prompt_new)
 
     
-                                # Formata a saída final
+                                
                                 formatted_response = f"**As notícias mais relevantes sobre dengue são:**\n\n{response_new}"
                                 st.markdown(formatted_response)
 

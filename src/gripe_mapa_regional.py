@@ -6,6 +6,10 @@ from gripe_data_processing import carregar_dados
 import user_global
 
 def create_dashboard():
+    '''A função create_dashboard cria um dashboard interativo no Streamlit para o monitoramento 
+    epidemiológico de gripes no Brasil. Inclui visualizações de mapas e gráficos para análise de 
+    casos estimados ao longo do tempo, além de filtros para refinar os dados por ano, semana epidemiológica e município.
+    '''
     st.title("🦠Monitoramento Epidemiológico de Gripes - Brasil🦠")
     
     # Carregar os dados

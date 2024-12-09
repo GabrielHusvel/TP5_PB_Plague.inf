@@ -14,11 +14,45 @@ HEADERS = {
 
 # Função para verificar se a notícia é relacionada à gripe
 def is_gripe_related(title, description):
+    '''
+    Descrição:
+    Verifica se uma notícia está relacionada a gripe com base em palavras-chave presentes no título ou descrição.
+
+    Parâmetros:
+
+    title (str): O título da notícia.
+    description (str): A descrição da notícia.
+    Retorno:
+
+    (bool): True se alguma palavra-chave estiver presente no título ou na descrição, caso contrário, False.
+    Palavras-chave utilizadas:
+
+    'gripe', 'influenza', 'resfriado', 'covid'.
+
+    '''
     keywords = ['gripe', 'influenza', 'resfriado', 'covid']
     return any(keyword.lower() in title.lower() or keyword.lower() in description.lower() for keyword in keywords)
 
 # Função para extrair informações sobre a gripe (site do governo)
 def scrape_gripe_info():
+    '''
+    Descrição:
+    Extrai informações sobre gripe diretamente do site oficial do Governo do Brasil.
+
+    Parâmetros:
+
+    Nenhum.
+    Retorno:
+
+    (list[str]): Lista de parágrafos com informações relevantes sobre gripe.
+    Exceções:
+
+    Gera uma exceção se a página não puder ser acessada.
+    Dependências:
+
+    requests, BeautifulSoup.
+
+    '''
     url = 'https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/g/gripe-influenza'
     response = requests.get(url, headers=HEADERS)
     
@@ -34,6 +68,30 @@ def scrape_gripe_info():
 
 # Função para coletar notícias da CNN Brasil
 def scrape_cnn_news():
+    '''
+    Descrição:
+    Coleta notícias relacionadas à gripe publicadas na CNN Brasil.
+
+    Parâmetros:
+
+    Nenhum.
+    Retorno:
+
+    (list[dict]): Lista de notícias, onde cada notícia contém:
+    title (str): Título da notícia.
+    link (str): URL da notícia.
+    description (str): Descrição ou resumo da notícia.
+    date (str): Data de publicação.
+    Exceções:
+
+    Gera uma exceção se a página da CNN não puder ser acessada.
+    Dependências:
+
+    requests, BeautifulSoup.
+    Nota:
+
+    Filtra as notícias utilizando palavras-chave relacionadas à gripe.
+    '''
     # URL do site
     url = "https://www.cnnbrasil.com.br/tudo-sobre/gripe/"
     
@@ -72,7 +130,7 @@ def scrape_cnn_news():
             news_data.append({
                 "title": title,
                 "link": link,
-                "description": title,  # A descrição é igual ao título
+                "description": title,  
                 "date": date
             })
     
@@ -80,6 +138,29 @@ def scrape_cnn_news():
 
 # Função para coletar notícias do G1
 def scrape_g1_news(state, city=None):
+    '''
+    Descrição:
+    Busca notícias relacionadas à gripe no G1 com base no estado e, opcionalmente, no município.
+
+    Parâmetros:
+
+    state (str): Nome do estado para busca.
+    city (str, opcional): Nome do município para busca.
+    Retorno:
+
+    (list[dict]): Lista de notícias, onde cada notícia contém:
+    title (str): Título da notícia.
+    link (str): URL da notícia.
+    description (str): Resumo da notícia.
+    date (str): Data de publicação.
+    Exceções:
+
+    Gera uma exceção se a página do G1 não puder ser acessada.
+    Dependências:
+
+    requests, BeautifulSoup.
+
+    '''
     search_query = f"gripe {state}" + (f" {city}" if city else "")
     url = f"https://g1.globo.com/busca/?q={search_query}"
     response = requests.get(url, headers=HEADERS)
@@ -120,6 +201,25 @@ def scrape_g1_news(state, city=None):
 
 # Função para exibir as notícias no Streamlit
 def show_news(news, title):
+    '''
+    Descrição:
+    Exibe notícias formatadas no Streamlit.
+
+    Parâmetros:
+
+    news (list[dict]): Lista de notícias para exibição.
+    title (str): Título da seção de notícias.
+    Retorno:
+
+    Nenhum (exibição direta no Streamlit).
+    Comportamento:
+
+    Exibe título, link clicável, data de publicação e descrição de cada notícia.
+    Exibe mensagem "Nenhuma notícia encontrada" caso a lista esteja vazia.
+    Dependências:
+
+    streamlit.
+    '''
     st.subheader(title)
     if not news:
         st.write("Nenhuma notícia encontrada.")
@@ -133,6 +233,32 @@ def show_news(news, title):
 
 # Streamlit App
 def noticias_informacoes_gripe():
+    '''
+    Descrição:
+    Aplicativo principal em Streamlit para exibir informações e notícias sobre gripe.
+
+    Parâmetros:
+
+    Nenhum.
+    Fluxo:
+
+    Carrega informações gerais sobre gripe do site do governo.
+    Exibe notícias gerais sobre gripe da CNN Brasil.
+    Exibe notícias específicas do G1 com base no estado e município.
+    Botões no Streamlit:
+
+    "Carregar Informações sobre gripe".
+    "Carregar Notícias Gerais".
+    "Carregar Notícias por Município".
+    Dependências:
+
+    streamlit, funções auxiliares como scrape_gripe_info, scrape_cnn_news, scrape_g1_news.
+    Notas:
+
+    Usa variáveis globais como MUNICIPIO_USUARIO_GRIPE para determinar o município selecionado.
+    Lida com exceções ao acessar dados ou páginas externas.
+
+    '''
     st.title("🔍 Notícias e Informações sobre gripe 🔍")
     
     # Informações gerais

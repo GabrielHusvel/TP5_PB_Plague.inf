@@ -4,6 +4,59 @@ import pydeck as pdk
 import plotly.express as px
 
 def exibir_dados_epidemiologicos(df):
+    '''
+    Função para exibir dados epidemiológicos e gerar visualizações interativas em um aplicativo Streamlit.
+
+    A função permite o upload de arquivos CSV, filtragem de dados por estados e municípios, 
+    criação de gráficos interativos (linhas, barras, pizza, histograma), e exibição de dados em um mapa interativo.
+    Além disso, oferece a funcionalidade de download dos dados filtrados.
+
+    Parâmetros:
+    ----------
+    df : pandas.DataFrame
+        DataFrame contendo os dados epidemiológicos.
+
+    Funcionalidades:
+    -----------------
+    1. **Incorporação do Power BI**:
+        - Um painel do Power BI é exibido em um iframe embutido.
+
+    2. **Upload de Arquivos**:
+        - Permite ao usuário carregar um arquivo CSV contendo dados epidemiológicos.
+
+    3. **Filtragem de Dados**:
+        - Filtragem por estados e municípios selecionados pelo usuário.
+        - Seleção de colunas específicas para exibição.
+
+    4. **Intervalo de Datas**:
+        - O usuário pode definir uma data inicial e final para filtrar os dados temporais.
+
+    5. **Agrupamento e Processamento de Dados**:
+        - Agrupa os dados por município e calcula somatórios (casos, estimativa de casos) 
+          e médias (temperatura média e umidade média).
+        - Reduz as casas decimais das colunas numéricas relevantes.
+
+    6. **Mapa Interativo**:
+        - Um mapa Pydeck é exibido com pontos representando municípios, indicando casos, 
+          estimativa de casos, temperatura média e umidade.
+
+    7. **Gráficos**:
+        - Linhas:
+          - Evolução dos casos ao longo do tempo.
+          - Variação da temperatura e umidade ao longo do tempo.
+        - Barras:
+          - Comparação entre duas variáveis selecionadas.
+        - Pizza:
+          - Distribuição percentual de uma variável numérica com base em categorias.
+        - Histograma:
+          - Frequência de dados categóricos ou numéricos.
+
+    8. **Download de Dados**:
+        - Permite ao usuário baixar os dados filtrados em formato CSV.
+
+    9. **Interface Interativa**:
+        - Uso de widgets como seletores múltiplos, caixas de seleção e barras de progresso para melhorar a experiência do usuário.
+    '''
     st.title(f"📊Dados Epidemiológicos📊")
     # Incorporar o Power BI no Streamlit
     st.components.v1.iframe("https://app.powerbi.com/view?r=eyJrIjoiYzQyOTI4M2ItZTQwMC00ODg4LWJiNTQtODc5MzljNWIzYzg3IiwidCI6IjlhNTU0YWQzLWI1MmItNDg2Mi1hMzZmLTg0ZDg5MWU1YzcwNSJ9&pageName=ReportSectionbd7616200acb303571fc", height=600)

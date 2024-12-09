@@ -9,6 +9,22 @@ import numpy as np
 
 # Definir cores baseadas no risco
 def definir_cor(risco):
+    '''
+    Determina a cor de um ponto em um mapa com base no nível de risco. O retorno é um valor RGBA (Red, Green, Blue, Alpha) para definir a cor e a opacidade.
+
+    Parâmetros:
+    risco (float): Representa o nível de risco associado ao município.
+    Retorno:
+    list: Uma lista com quatro valores inteiros [R, G, B, A], onde:
+    R (Red): Intensidade de vermelho.
+    G (Green): Intensidade de verde.
+    B (Blue): Intensidade de azul.
+    A (Alpha): Transparência (0 a 255).
+    Regras de atribuição de cor:
+    Risco Alto (risco > 7): Retorna vermelho [255, 0, 0, 160].
+    Risco Moderado (1 < risco <= 6.99): Retorna amarelo [255, 255, 0, 160].
+    Risco Baixo (risco <= 1): Retorna verde [0, 255, 0, 160].
+    '''
     if risco > 7:
         return [255, 0, 0, 160]  # Vermelho (risco alto)
     elif 1 < risco <= 6.99:
@@ -248,6 +264,32 @@ def plotar_graficos(df_municipio, df_min_max, municipio_usuario, estado_usuario)
 import user_global
 from user_global import MUNICIPIO_USUARIO, ESTADO_USUARIO
 def exibir_analise_municipio(df):
+    '''
+    Realiza análises específicas para um município solicitado. A função valida a presença do município no dataframe, extrai dados detalhados para ele, e filtra dados dos municípios do mesmo estado para o último mês disponível.
+
+    Parâmetros:
+    df (DataFrame): O dataframe contendo informações epidemiológicas. Deve incluir as colunas:
+    municipio: Nome dos municípios.
+    estado: Nome dos estados associados aos municípios.
+    data_week: Coluna de datas (tipo datetime ou string que possa ser convertida).
+    municipio_usuario (str): Nome do município a ser analisado.
+    Retorno:
+    estado_usuario (str): Estado do município solicitado.
+    municipio_usuario (str): Nome do município solicitado (confirmado no dataset).
+    df_municipio (DataFrame): Subconjunto do dataframe contendo apenas os dados do município solicitado.
+    df_filtrado (DataFrame): Dados filtrados para todos os municípios do mesmo estado durante o último mês disponível.
+    Exceções:
+    ValueError: Lançada se o município solicitado não for encontrado no dataframe.
+    Fluxo de processamento:
+    Conversão de Datas: Garante que a coluna data_week esteja no formato datetime.
+    Validação de Município: Verifica se o município informado está presente no dataset.
+    Filtragem de Dados:
+    Seleciona os dados do município solicitado.
+    Determina o estado do município.
+    Filtra os dados de todos os municípios do estado correspondente para o último mês disponível.
+    Retorno: Fornece os dados detalhados para análises adicionais.
+
+    '''
     
     st.title("🦟Análise da Situação do Município - Dengue🦟")
     
